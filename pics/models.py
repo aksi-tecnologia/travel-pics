@@ -6,6 +6,12 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+    
+    class Meta:
+        db_table = 'pics_category'
+        managed = True
+        verbose_name = 'Categoria'
+        verbose_name_plural = 'Categorias'
 
 
 class Folder(models.Model):
@@ -13,10 +19,16 @@ class Folder(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    user = models.ForeignKey('auth.User', on_delete=models.CASCADE)
+    user = models.ForeignKey('core.CustomUser', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
+    
+    class Meta:
+        db_table = 'pics_folder'
+        managed = True
+        verbose_name = 'Pasta'
+        verbose_name_plural = 'Pastas'
 
 
 class Photo(models.Model):
@@ -30,7 +42,7 @@ class Photo(models.Model):
     folder = models.ForeignKey(Folder, on_delete=models.CASCADE, blank=True)
     category = models.ForeignKey(Category, on_delete=models.DO_NOTHING)
     is_public = models.BooleanField(default=True)  # Field to define if the photo is public or private
-    user = models.ForeignKey('auth.User', on_delete=models.CASCADE)
+    user = models.ForeignKey('core.CustomUser', on_delete=models.CASCADE)
     
 
     def __str__(self):
